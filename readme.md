@@ -8,15 +8,9 @@ Since the reservoir is natural, we can't assume simple shapes. I used Alpha Shap
 
 ```mermaid
 graph LR
-    A[Raw Depth Points 65%] --> B{Analyze Geometry}
-    B -->|Define Boundary| C[Alpha Shapes]
-    B -->|Analyze Spatial Trend| D[Variogram Modeling]
-    C --> E[Constrained Interpolation Grid]
-    D --> E
-    E --> F[Ordinary Kriging]
-    F --> G[Estimated Surface DEM]
-    F --> H[Variance/Uncertainty Map]
-    G --> I[Volumetric Integration]
+    A[Raw Points] --> B[Alpha Shapes Boundary]
+    B --> C[Kriging Interpolation]
+    C --> D[Volume Calculation]
 ```
 
 ## Problem 2: The Spectral Discrepancy
@@ -25,15 +19,10 @@ Satellites can be tricked by sun glint or mud. This flow checks for those "false
 
 ```mermaid
 graph LR
-    A[Satellite Alert: High Greenness] --> B{Atmospheric Check}
-    B -->|High Cloud Cover| C[Dismiss: Cloud Shadow]
-    B -->|Clear Sky| D{Spectral Check: NIR Band}
-    D -->|Low NIR| E[Dismiss: Glint / Sediment]
-    D -->|High NIR| F{Context Check}
-    F -->|High Wind speed| G[Dismiss: Mixing Artifact]
-    F -->|Low Temp| G
-    F -->|Warm & Calm| H[VALIDATE ALERT]
-    H --> I[Spatial Weighting IDW]
+    A[Alert] --> B[Clarity Check]
+    B --> C[NIR Spectral Check]
+    C --> D[Wind & Temp Check]
+    D --> E[Validated Alert]
 ```
 
 ## Problem 3: The Balancing Act
@@ -42,14 +31,9 @@ Water doesn't teleport, and it expands when hot. This model accounts for the del
 
 ```mermaid
 graph LR
-    A[Rainfall Input t=0] --> B{Hydrologic Abstractions}
-    B -->|Loss| C[Infiltration Saturation]
-    B -->|Loss| D[Depression Storage]
-    B --> E[Effective Runoff]
-    E --> F[Routing Delay t=12]
-    F --> G[Lake Inflow]
-    G --> H[Level Sensor Reading]
-    H --> I{Temperature Correction}
-    I -->|Calc Mass| J[Mass = Volume * Density T]
-    J --> K[True Mass Balance]
+    A[Rain t=0] --> B[Subtract Soil Loss]
+    B --> C[Apply 12h Delay]
+    C --> D[Lake Level Rise]
+    D --> E[Temp Correction]
+    E --> F[True Mass Balance]
 ```
