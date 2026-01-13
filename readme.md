@@ -7,7 +7,7 @@ Here is a quick visual breakdown of the logic I used to solve the three problems
 Since the reservoir is natural, we can't assume simple shapes. I used Alpha Shapes to hug the actual data points and Kriging to intelligently guess the depths in the blind spots based on nearby trends.
 
 ```mermaid
-graph TD
+graph LR
     A[Raw Depth Points 65%] --> B{Analyze Geometry}
     B -->|Define Boundary| C[Alpha Shapes]
     B -->|Analyze Spatial Trend| D[Variogram Modeling]
@@ -24,7 +24,7 @@ graph TD
 Satellites can be tricked by sun glint or mud. This flow checks for those "false positives" before we panic and send an alert.
 
 ```mermaid
-graph TD
+graph LR
     A[Satellite Alert: High Greenness] --> B{Atmospheric Check}
     B -->|High Cloud Cover| C[Dismiss: Cloud Shadow]
     B -->|Clear Sky| D{Spectral Check: NIR Band}
@@ -41,7 +41,7 @@ graph TD
 Water doesn't teleport, and it expands when hot. This model accounts for the delay (routing) and the thermal expansion so our "Digital Twin" doesn't see a ghost flood.
 
 ```mermaid
-graph TD
+graph LR
     A[Rainfall Input t=0] --> B{Hydrologic Abstractions}
     B -->|Loss| C[Infiltration Saturation]
     B -->|Loss| D[Depression Storage]
@@ -53,4 +53,3 @@ graph TD
     I -->|Calc Mass| J[Mass = Volume * Density T]
     J --> K[True Mass Balance]
 ```
-
